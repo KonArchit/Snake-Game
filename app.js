@@ -3,7 +3,7 @@ let velocity = { x: 0, y: 0 }; //Snake is not moving
 const foodSound = new Audio("music/food.mp3");
 const gameOverSound = new Audio("music/gameover.mp3");
 const moveSound = new Audio("music/move.mp3");
-const musicSound = new Audio("music/music.mp3");
+const musicSound = new Audio("music/gameSound.mp3");
 let speed = 10;
 let lastPaintTime = 0;
 let snakeArr = [
@@ -50,22 +50,21 @@ function gameEngine() {
         snakeArr = [{ x: 13, y: 15 }];
         musicSound.play();
         score = 0;
-        scoreBox.innerHTML="Score: "+score ;
-        
+        scoreBox.innerHTML = "Score: " + score;
+
     }
 
     //If snake has eaten the food, increment the score and regenerate the food
 
     if (snakeArr[0].y === food.y && snakeArr[0].x === food.x) {
         foodSound.play();
-        score+=1 ;
-        if(score>highScoreVal)
-        {
-            highScoreVal=score ;
-            localStorage.setItem("highScore",JSON.stringify(highScoreVal)) ;
-            highScoreBox.innerHTML="High Score: "+highScoreVal ;
+        score += 1;
+        if (score > highScoreVal) {
+            highScoreVal = score;
+            localStorage.setItem("highScore", JSON.stringify(highScoreVal));
+            highScoreBox.innerHTML = "High Score: " + highScoreVal;
         }
-        scoreBox.innerHTML="Score: "+score ;
+        scoreBox.innerHTML = "Score: " + score;
         snakeArr.unshift({ x: snakeArr[0].x + velocity.x, y: snakeArr[0].y + velocity.y });
 
         let a = 2;
@@ -75,8 +74,10 @@ function gameEngine() {
     }
 
     //Moving the snake
+
     for (let i = snakeArr.length - 2; i >= 0; i--) {
         snakeArr[i + 1] = { ...snakeArr[i] };
+
     }
 
     snakeArr[0].x += velocity.x;
@@ -120,19 +121,19 @@ function gameEngine() {
 
 
 //Main logic
-
-let highScore=localStorage.getItem("highScore") ;
-if(highScore===null){
-    highScoreVal=0 ;
-    localStorage.setItem("highScore",JSON.stringify(highScoreVal)) ;
+let highScore = localStorage.getItem("highScore");
+if (highScore === null) {
+    highScoreVal = 0;
+    localStorage.setItem("highScore", JSON.stringify(highScoreVal));
 }
-else{
-    highScoreVal=JSON.parse(highScore) ;
-    highScoreBox.innerHTML="High Score: "+highScore ;
+else {
+    highScoreVal = JSON.parse(highScore);
+    highScoreBox.innerHTML = "High Score: " + highScore;
 }
 window.requestAnimationFrame(main);
 window.addEventListener('keydown', e => {
     // console.log("Key pressed");
+    musicSound.play() ;
     velocity = { x: 0, y: 1 } //Start the game
     moveSound.play();
     switch (e.key) {
@@ -166,7 +167,7 @@ window.addEventListener('keydown', e => {
             break;
 
         default:
-            alert("Wrong Key Pressed!") ;
-            break ;
+            alert("Wrong Key Pressed!");
+            break;
     }
 });
